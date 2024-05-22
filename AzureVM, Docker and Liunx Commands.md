@@ -81,10 +81,10 @@ When combined, $(sudo docker ps -aq) provides a list of all container IDs, which
 So, when you run this command, you'll be dropped into an interactive shell session inside the specified Docker container, allowing you to run commands and interact with its filesystem.
 
 ***
+    /etc/init.d/<engin name> status
 
-
-
-
+- used to check the status of a service named "<engin name>". This command typically queries the status of a service's daemon process to determine whether it is currently running or stopped. It's commonly used to verify the operational status of system services and daemons on a Linux system.
+***
 
 
 
