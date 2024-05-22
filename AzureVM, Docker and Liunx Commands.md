@@ -76,7 +76,7 @@ When combined, $(sudo docker ps -aq) provides a list of all container IDs, which
 
 - docker container exec: This command is used to execute a command inside a running container.
 - it: These options are used together to allocate a pseudo-TTY and keep STDIN open even if not attached. This allows you to interact with the container's shell.
-- <containerUUID>: This is the universally unique identifier (UUID) or name of the container where you want to execute the command.
+- containerUUID: This is the universally unique identifier (UUID) or name of the container where you want to execute the command.
 - bash: This is the command to be executed inside the container. In this case, it starts an interactive bash shell.
 So, when you run this command, you'll be dropped into an interactive shell session inside the specified Docker container, allowing you to run commands and interact with its filesystem.
 
