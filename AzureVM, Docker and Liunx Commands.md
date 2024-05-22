@@ -5,8 +5,8 @@
 
   ![explorer_MF0veGAAdE](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/7306312f-7a7a-4e0e-a483-8a20e626e86f)
 
-- The terminal should be in the directory where docker-key.pem is located.
 ***
+- The terminal should be in the directory where docker-key.pem is located.
 
       ssh -i docker-key.pem <root>@<ip-address>
 
