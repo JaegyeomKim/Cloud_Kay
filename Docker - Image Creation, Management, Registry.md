@@ -155,17 +155,165 @@ Whenever you make changes inside the contaner, it can be useful to commit a cont
 By default, the conatainer being committed and its processes will be paused while the image is committed. 
 
 
+Syntax:
+
+      docker conatiner commit CONtainer-ID myimage01
+
+The --change option will apply Dockerfile instructions to the images that is created.
+
+Supported Dockerfile instructions:
+- CMD | ENTRYPOIN | ENY | EXPOSE
+- LABEL | ONBUILD | USER | VOLUME | WORKDIR
 
 
+Whenever you make changes inside the container, it can be useful to commit a container's gile changes or setting into a new image.
+
+By default, the container being committed and its processes will ve paused while the image is committed. 
+
+Syntax:
+
+      docker container commit CONTAINER-ID myimage01
 
 
+# 🔥Layers of Docker Image
+
+A Docker Images is built up from a series of layers.
+Each layer represents an instruction in the image's Dockerfile.
+
+![image](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/76e4e3b6-091c-4091-8097-5dcb2fe53618)
 
 
+The major difference between a container and an image is top writable layer.
+
+All writes to the container that add new or modify existing data are stored in this writable layer. 
+
+Docker Script
+
+      FROM ubuntu
+      RUN dd if =/dev/zero of=/root/file1.text bs =1m count=100
+      RUN dd if =/dev/zero of=/root/file2.text bs =1m count=100
+      RUN rm -f /root/file1.text
+      RUN rm -f /root/file2.text
 
 
+Has five layers but the side of image will be same even if the layer4 and 5 are triggered. 
+So even though I'm removing it, the file still exists in the layer two, although it might not in the layer four, it might be de-linked, but the file still exists here.
+
+Docker Script
+
+      FROM ubuntu
+      RUN dd if =/dev/zero of=/root/file1.text bs =1m count=100 && rm -f /root/file1.text
+      RUN dd if =/dev/zero of=/root/file2.text bs =1m count=100&& rm -f /root/file2.text
 
 
+**Having fewer layers can result in smaller Docker image sizes and improved build speeds. Thus, the second Dockerfile provides a more efficient build.
+**
 
 
+# 🔥Managing Images with CLI
+
+Docker CLI can be used to manage various aspects related to Docker Images which includes building, removing, saving, tagging and others.
+
+We should be familiar with the docker image child-commands. 
+
+- docker image build
+- docker image history
+- docker image import
+- docker image inspect
+- docker image load
+- docker image ls
+- docker image prune
+- docker image pull
+- docker image push
+- docker image rm
+- docker image save
+- docker image tag
+
+# 🔥Inspecting Docker Image
+
+A Docker Image contains lots of informaion, some of these include:
+
+- Creation Date
+- Command
+- Environment Variables
+- Architecture
+- OS
+- Size
+
+Docker Image inspect command allows us to see all information associated with a docker image.
 
 
+docker image inspect nginx | grep Config
+docker image inspect nginx | grep Os
+
+docker image inspect nginx --format='{{.Id}}'
+docker image inspect nginx --format='{{json .Config}}'
+docker image inspect nginx --format='{{.Config.Hostname}}'
+
+# 🔥Docker Image Prune
+
+Docker image prune command allows us to clean up unused images.
+
+By default, the above command will only clean up dangling images. 
+
+Dangling Images = Image without Tags and Image not referenced by any container
+
+# 🔥Flattening Docker Images
+
+In a generic scenerio, the more the layers an image has, the more the size of the imamge.
+
+Some of the image size goes from 5GB to 10GB.
+
+Flattrning an image to signle layer can help reduce the overall size of the image. 
+
+
+ ** Modify Image to Single Layer **
+
+      docker export myubuntu > myubuntudemo.tar
+
+***
+
+azureuser@LinuxUbuntuServerVM:~$ ls -la
+
+total 121396
+drwxr-xr-x 7 azureuser azureuser      4096 May 23 22:27 .
+drwxr-xr-x 3 root      root           4096 May 21 16:41 ..
+-rw------- 1 azureuser azureuser     11304 May 23 18:06 .bash_history
+-rw-r--r-- 1 azureuser azureuser       220 Feb 25  2020 .bash_logout
+-rw-r--r-- 1 azureuser azureuser      3771 Feb 25  2020 .bashrc
+drwx------ 2 azureuser azureuser      4096 May 21 17:22 .cache
+drwx------ 3 azureuser azureuser      4096 May 22 20:56 .docker
+drwxrwxr-x 3 azureuser azureuser      4096 May 22 20:51 .local
+-rw-r--r-- 1 azureuser azureuser       807 Feb 25  2020 .profile
+drwx------ 2 azureuser azureuser      4096 May 21 16:41 .ssh
+-rw-r--r-- 1 azureuser azureuser         0 May 21 18:24 .sudo_as_admin_successful
+drwxrwxr-x 2 azureuser azureuser      4096 May 23 17:09 demo
+**-rw-rw-r-- 1 azureuser azureuser 124254720 May 23 22:27 myubuntudemo.tar**
+
+***
+      ls -l myubuntudemo.tar
+
+-rw-rw-r-- 1 azureuser azureuser 124254720 May 23 22:27 myubuntudemo.tar
+
+***
+
+      sudo cat myubuntudemo.tar | sudo docker import - myubuntu:latest
+sha256:5aa75958e3da75428a42bae96710b2f2fb482a7b02c285caca0970018b8b5e02
+
+***
+
+      sudo docker images
+
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+**myubuntu     latest    5aa75958e3da   35 seconds ago   121MB**
+myimage      v1.0      601541c312cd   24 hours ago     122MB
+mysql        latest    e9387c13ed83   3 weeks ago      578MB
+      
+***
+
+      sudo docker image history myubuntu
+
+IMAGE          CREATED              CREATED BY   SIZE      COMMENT
+5aa75958e3da   About a minute ago                121MB     Imported from -
+
+Only one layer! 
