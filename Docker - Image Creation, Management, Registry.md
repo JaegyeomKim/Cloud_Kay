@@ -317,3 +317,37 @@ IMAGE          CREATED              CREATED BY   SIZE      COMMENT
 5aa75958e3da   About a minute ago                121MB     Imported from -
 
 Only one layer! 
+
+
+# 🔥Understanding Docker Registry
+
+A Registry a stateless, highly scalable server side application that stores and lets toy distribute Docker images.
+
+Docker Hub is the simplest example that all of us must havbe used.
+
+There are various types of registry available, which includes:
+
+- Docker Registry
+- Docker Trusted Registry
+- Private Repositoty (AWS ECR)
+- Docker Hub
+
+***
+      docker run -d -p 5000:5000 --restart always --name registry registry:2
+
+- pull docker registry and run with tag of 2
+- listening on 5000 
+
+      docker pull ubuntu
+
+      docker tag ubuntu:latest localgost:5000/myububtu
+  
+- Add image name: localhost:5000/myububtu
+
+        docker push localhost:5000/myububtu
+  
+- it is pushing the image to docker registory
+
+        docker pull localhost:5000/myububtu
+
+- the image pulling from registry
