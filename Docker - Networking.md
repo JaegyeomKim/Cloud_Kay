@@ -111,4 +111,17 @@ A  bridge network uses a software bridge which allows containers connected to th
 
 ![image](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/69001622-9ae0-4d97-8f37-9a6f58fb361b)
 
+    docker container  exec -it test1 bash
+    apt-get update && apt-get install netool
+
+    ifconfig 
+
+  Bridge is the default network driver for Docker.
+
+  If we do not specify a driver, this is the type of network you are creating.
+
+  When you start a Docker, a defalut bridge network(also called bridge) is created automatically, and newly-started containers connect 
+  to it unless otherwise specified.
+
+  We also can create User-Defined Bridge Network which are superior to the default bridge. 
 
