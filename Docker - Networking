@@ -9,7 +9,7 @@ There are several drivers available by default, and provides core netwroing func
 - bridge
 - host
 - overlay
-  - macvlan
-  - none
+- macvlan
+- none
 
 
