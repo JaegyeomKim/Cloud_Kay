@@ -101,3 +101,14 @@ Host: When network isolation between container and host is unnecessary, and perf
 Overlay: When communication is needed between containers on different hosts.
 Macvlan: When containers need to act like physical devices on the network.
 None: When running highly isolated containers that do not need network connectivity.
+
+
+# 🔥Understanding Bridge Network Driver
+
+
+A  bridge network uses a software bridge which allows containers connected to the same bridge network t communicate, while providing isolation from contatiners which are not connected to that bridge network. 
+
+
+![image](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/69001622-9ae0-4d97-8f37-9a6f58fb361b)
+
+
