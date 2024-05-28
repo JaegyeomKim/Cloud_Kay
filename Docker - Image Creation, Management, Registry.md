@@ -351,3 +351,53 @@ There are various types of registry available, which includes:
         docker pull localhost:5000/myububtu
 
 - the image pulling from registry
+
+
+# 🔥Azure Container Registry
+
+Steps 
+
+- Install Azure PowerShell on Linux (VM) : Server
+
+- Update PowerShell
+
+- Sign-in (Azure Account)
+
+https://learn.microsoft.com/en-us/powershell/azure/install-azps-linux?view=azps-12.0.0
+https://www.youtube.com/watch?v=Bc7FpteQSAk&t=93s
+
+
+# 🔥Docker SAVE
+
+UseCase: James has created an app based on Docerk. He has the image file in his laptop.
+
+He wants to send the image to Matthew over the email.
+
+The docker save command will save one or more images to a tar archive.
+
+Example Snippet:
+
+      docker save busybox > busybox.tar
+
+Once Matthew recived the busybox.tar.
+
+The docker load commend will load animage from a tar archive
+
+Example Snippet:
+
+      docker load < busybox.tar
+
+# 🔥Build Cache
+
+Docker creates container images using layers.
+
+Each command that is found in a Dockerfile creates a new layer.
+
+Docker uses a layer cache to optimize the process of building docker images and make it faster.
+
+
+
+
+
+
+      
