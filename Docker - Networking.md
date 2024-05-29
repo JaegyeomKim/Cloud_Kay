@@ -116,6 +116,10 @@ A  bridge network uses a software bridge which allows containers connected to th
 
     ifconfig 
 
+    apt-get install iptils-ping
+
+    ping 172.17.0.4
+
   Bridge is the default network driver for Docker.
 
   If we do not specify a driver, this is the type of network you are creating.
