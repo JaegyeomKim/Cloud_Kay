@@ -1,11 +1,15 @@
-- Proxy
-- Forward Proxy
-- Reverse Proxy
-- Load Balancer
+1- Proxy
+  
+2- Forward Proxy
 
-* Network Proxy
+3- Reverse Proxy
+
+4- Load Balancer
+
+
 **1. Proxy**
   : agent, substitute
+
 1-2. Proxy Server
   : Intermediary Server
 
