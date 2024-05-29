@@ -129,3 +129,52 @@ A  bridge network uses a software bridge which allows containers connected to th
 
   We also can create User-Defined Bridge Network which are superior to the default bridge. 
 
+# 🔥User-Defined Bridge Network
+
+There are various difference between default and user-defined bridge. Some of these includes:
+
+- User-defined bridges provide better isolation and interoperability between containerized application.
+- **User-defined bridges provide automatic DNS resolution between containers.**
+- Containers can be attachhed and detached from user-defined networks on the fly.
+- Each user-defined network creates a configurable bridge.
+- Linked containers on the default bridge network share env val
+
+1. Create a User-Defined Bridge Network
+If you haven't already created the mybridge network, you can do so with the following command:
+
+        docker network create --driver bridge mybridge
+
+3. Run the First Container in the User-Defined Bridge Network
+Start the first container named tempcommitdemo1 in the mybridge network:
+
+        sudo docker run -d --name tempcommitdemo1 --network mybridge --rm myazurecontainerregistry2024.azurecr.io/nginx nginx -g "daemon off;"
+   
+3. Run the Second Container in the Same Network
+Start the second container named tempcommitdemo2 in the same mybridge network:
+
+        sudo docker run -d --name tempcommitdemo2 --network mybridge --rm myazurecontainerregistry2024.azurecr.io/nginx nginx -g "daemon off;"
+   
+5. Access the First Container
+Access the first container with an interactive bash shell:
+
+        docker container exec -it tempcommitdemo1 bash
+
+5. Install Networking Tools Inside the First Container
+Inside the tempcommitdemo1 container, update the package lists and install net-tools and iputils-ping:
+
+        apt-get update && apt-get install -y net-tools iputils-ping
+
+6. Ping the Second Container from the First Container
+Ping the second container tempcommitdemo2 from within the first container tempcommitdemo1:
+
+        ping tempcommitdemo2
+
+You should see output indicating that tempcommitdemo1 is successfully pinging tempcommitdemo2.
+
+7. (Optional) Access the Second Container and Ping the First Container
+For completeness, you can also access the second container and ping the first container:
+
+        docker container exec -it tempcommitdemo2 bash
+        apt-get update && apt-get install -y net-tools iputils-ping
+        ping tempcommitdemo1
+    
