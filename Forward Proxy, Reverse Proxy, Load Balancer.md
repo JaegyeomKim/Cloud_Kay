@@ -1,8 +1,7 @@
-**List
 - Proxy
 - Forward Proxy
 - Reverse Proxy
-- Load Balancer**
+- Load Balancer
 
 * Network Proxy
 **1. Proxy**
