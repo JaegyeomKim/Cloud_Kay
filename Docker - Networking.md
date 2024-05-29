@@ -177,4 +177,36 @@ For completeness, you can also access the second container and ping the first co
         docker container exec -it tempcommitdemo2 bash
         apt-get update && apt-get install -y net-tools iputils-ping
         ping tempcommitdemo1
-    
+
+# 🔥Overview of Host Network
+
+This driver removes the network isolation between the docker host and the docker containers to use the host's networking directly.
+
+For instance, if you run container which binds to prot 80 abd you use host networking, the container's app will be available on port 80 on the host's IP address
+
+
+# 🔥None Network
+
+If you want to completely disable the networking stack on a container, you can use the none network.
+
+This mode will not configure any IP for the container and doesn't have any access to the external network as well as for other containers.
+
+# 🔥Publishing Exposed Ports of Container
+
+About an approach to publishing container port to host.
+
+    docker container run -dt --name webserver -p 80:80 nginx
+    docker container run -dt --name webserver -P nginx
+
+This is also referred as publish list as it publishes only loist of port specified. 
+
+# 🔥 Legacy Approach for Linking Containers (**Legacy** Not recommended. Use coustom bridge network)
+
+    docker container run -dt --name container01 busybox sh
+
+    docker container run -dt --link <container name>:<alias name>
+    docker container run -dt --link container01:container --name container02 busybox sh
+
+    docker container exec -it container02 sh
+    ping container # It automatically resolves the IP address associated with the container01. This is defualt bridge network
+  
