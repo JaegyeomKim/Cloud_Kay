@@ -20,3 +20,16 @@ Container Orchestration can be used to perfrorm lot of tasks, some of them inclu
 - Health monitoring of containers and hosts
 
 
+🔥Docker Swarm & Building Labs
+
+Docker Swarm is a container orchesration tool which is natively supported by Docker.
+
+Lab Setup
+
+![image](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/ee10ed48-5c0d-4042-b59d-453d670430c3)
+
+
+Username
+azureuser
+Key pair name
+vm1_key
