@@ -29,7 +29,116 @@ Lab Setup
 ![image](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/ee10ed48-5c0d-4042-b59d-453d670430c3)
 
 
-Username
-azureuser
-Key pair name
-vm1_key
+Document - Docker Script
+
+Step 1: Open a text file named docker-install.sh via the vi editor
+
+    nano docker-install.sh
+
+Step 2: Paste the following script within the text file and save it
+
+    #!/bin/bash
+    
+    # Install Docker dependencies
+    sudo apt-get update
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    
+    # Add Docker GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    
+    # Add Docker repository
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    
+    # Install Docker
+    sudo apt-get update
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    
+    # Start Docker service
+    sudo systemctl start docker
+    
+    # Enable Docker service to start on boot
+    sudo systemctl enable docker
+    
+Step 3: Make the script executable:
+
+    chmod +x docker-install.sh
+
+Step 4: Run the script:
+
+    ./docker-install.sh
+
+🔥Initializing Docker Swarm 
+
+- A node is an instance of the Docker Engine participating in the swarm.
+- To deploy your application to a swarm, you submit a service definition to a manager node.
+- The manager node dispatches units of work called tasks to worker node.
+
+1. Manager Node Command:
+
+        docker swarm init --adverties-addr <MANAGER-IP>
+
+
+   To add a worker to this swarm, run the following command:
+
+        docker swarm join --token <something secrec>
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+3. Worker Nodes Command:
+     
+        docker swarm join --token <something secrec>
+
+
+
+azureuser@vm2:~$ sudo docker node ls
+
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+sle0f5mxinq1be3iesehv19x1 *   vm2        Ready     Active         Leader           26.1.3
+r25ar6ws9xvluxou44ym8f2ea     vm3        Unknown   Active                          26.1.3
+o8qijayebdwl7phbijk4vngmq     vm4        Unknown   Active                          26.1.3
+
+
+🔥Services, Tasks and Containers
+
+A service is the definition of the tasks to execute on the manager or worker nodes.
+
+docker service create --name webserver --replicas 1 nginx
+
+![image](https://github.com/JaegyeomKim/Cloud_Kay/assets/77129961/dbeeab0b-0230-4d97-b60a-4fae1b52aa3b)
+
+    sudo docker service create --name webserver --replicas 1 nginx
+
+  overall progress: 1 out of 1 tasks. 
+  1/1: running
+  
+    sudo docker service ls
+    
+  ID             NAME        MODE         REPLICAS   IMAGE          PORTS
+  6cgolzdgz3eq   webserver   replicated   1/1        nginx:latest
+
+
+    sudo docker service ps webserver
+    
+  ID             NAME          IMAGE          NODE      DESIRED STATE   CURRENT STATE                ERROR     PORTS
+  o8bktcbgx1ga   webserver.1   nginx:latest   vm2       Running         Running about a minute ago
+
+    azureuser@vm2:~$ sudo docker ps
+    
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS     NAMES
+347dac6782d6   nginx:latest   "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes   80/tcp    webserver.1.o8bktcbgx1gad0t16rwj3b2a9
+
+    azureuser@vm2:~$ sudo docker stop 347dac6782d6
+347dac6782d6
+
+    azureuser@vm2:~$ sudo docker service ps webserver
+ID             NAME              IMAGE          NODE      DESIRED STATE   CURRENT STATE             ERROR     PORTS
+z7mxmd5t4lwl   webserver.1       nginx:latest   vm2       Running         Running 32 seconds ago
+o8bktcbgx1ga    \_ webserver.1   nginx:latest   vm2       Shutdown        Complete 37 seconds ago
+
+    azureuser@vm2:~$ sudo docker service rm webserver
+webserver
+
+    azureuser@vm2:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+  
