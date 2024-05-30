@@ -93,6 +93,7 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 azureuser@vm2:~$ sudo docker node ls
 
 ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+
 sle0f5mxinq1be3iesehv19x1 *   vm2        Ready     Active         Leader           26.1.3
 r25ar6ws9xvluxou44ym8f2ea     vm3        Unknown   Active                          26.1.3
 o8qijayebdwl7phbijk4vngmq     vm4        Unknown   Active                          26.1.3
@@ -114,17 +115,20 @@ docker service create --name webserver --replicas 1 nginx
     sudo docker service ls
     
   ID             NAME        MODE         REPLICAS   IMAGE          PORTS
+  
   6cgolzdgz3eq   webserver   replicated   1/1        nginx:latest
 
 
     sudo docker service ps webserver
     
   ID             NAME          IMAGE          NODE      DESIRED STATE   CURRENT STATE                ERROR     PORTS
+  
   o8bktcbgx1ga   webserver.1   nginx:latest   vm2       Running         Running about a minute ago
 
     azureuser@vm2:~$ sudo docker ps
     
 CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS     NAMES
+
 347dac6782d6   nginx:latest   "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes   80/tcp    webserver.1.o8bktcbgx1gad0t16rwj3b2a9
 
     azureuser@vm2:~$ sudo docker stop 347dac6782d6
@@ -132,6 +136,7 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS   
 
     azureuser@vm2:~$ sudo docker service ps webserver
 ID             NAME              IMAGE          NODE      DESIRED STATE   CURRENT STATE             ERROR     PORTS
+
 z7mxmd5t4lwl   webserver.1       nginx:latest   vm2       Running         Running 32 seconds ago
 o8bktcbgx1ga    \_ webserver.1   nginx:latest   vm2       Shutdown        Complete 37 seconds ago
 
@@ -173,6 +178,7 @@ verify: Service webserver converged
 
     azureuser@vm2:~$ sudo docker service ps webserver
 ID             NAME              IMAGE          NODE      DESIRED STATE   CURRENT STATE             ERROR     PORTS
+
 zhb1zvj4gwod   webserver.1       nginx:latest   vm4       Running         Running 10 minutes ago
 21lun1znyqtb    \_ webserver.1   nginx:latest   vm2       Shutdown        Complete 10 minutes ago
 xpplw4x9pebs   webserver.2       nginx:latest   vm3       Shutdown        Shutdown 4 minutes ago
@@ -183,5 +189,6 @@ vxh3e0dimq8k    \_ webserver.5   nginx:latest   vm2       Shutdown        Comple
 
     azureuser@vm4:~$ sudo docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+
 80e6410acde4   nginx:latest   "/docker-entrypoint.…"   11 minutes ago   Up 11 minutes   80/tcp    webserver.1.zhb1zvj4gwod7g5ulejsbs7e3
 
