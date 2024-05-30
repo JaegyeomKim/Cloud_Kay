@@ -142,3 +142,46 @@ webserver
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
   
+🔥Scaling Service in Swarm
+
+Once you have deployed a service to a swarm, you are ready to use the Docker CLI to scale the number of containers in the service.
+
+Containers running in a service are called "tasks."
+
+    azureuser@vm2:~$ sudo docker service create --name webserver --replicas 1 nginx
+    
+0poowau5ikqw170odc5svs9bw
+verify: Service 0poowau5ikqw170odc5svs9bw converged
+
+    azureuser@vm2:~$ sudo docker service scale webserver=5
+    
+webserver scaled to 5
+overall progress: 5 out of 5 tasks
+1/5: running   [==================================================>]
+2/5: running   [==================================================>]
+3/5: running   [==================================================>]
+4/5: running   [==================================================>]
+5/5: running   [==================================================>]
+verify: Service webserver converged
+
+
+    azureuser@vm2:~$ sudo docker service scale webserver=1
+webserver scaled to 1
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service webserver converged
+
+    azureuser@vm2:~$ sudo docker service ps webserver
+ID             NAME              IMAGE          NODE      DESIRED STATE   CURRENT STATE             ERROR     PORTS
+zhb1zvj4gwod   webserver.1       nginx:latest   vm4       Running         Running 10 minutes ago
+21lun1znyqtb    \_ webserver.1   nginx:latest   vm2       Shutdown        Complete 10 minutes ago
+xpplw4x9pebs   webserver.2       nginx:latest   vm3       Shutdown        Shutdown 4 minutes ago
+i2zdd6njm0pj    \_ webserver.2   nginx:latest   vm2       Shutdown        Complete 10 minutes ago
+os2sqbf5g71v   webserver.4       nginx:latest   vm2       Shutdown        Complete 10 minutes ago
+i7297ijqg59y   webserver.5       nginx:latest   vm3       Shutdown        Shutdown 4 minutes ago
+vxh3e0dimq8k    \_ webserver.5   nginx:latest   vm2       Shutdown        Complete 10 minutes ago
+
+    azureuser@vm4:~$ sudo docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+80e6410acde4   nginx:latest   "/docker-entrypoint.…"   11 minutes ago   Up 11 minutes   80/tcp    webserver.1.zhb1zvj4gwod7g5ulejsbs7e3
+
